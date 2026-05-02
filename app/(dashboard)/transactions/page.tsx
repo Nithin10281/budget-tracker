@@ -159,6 +159,7 @@
 "use client";
 export const dynamic = "force-dynamic";
 
+import { Suspense } from "react";
 import { Button } from "@/components/ui/button";
 import { 
     Card,
@@ -193,13 +194,12 @@ const INITIAL_IMPORT_RESULTS = {
     meta: {},
 };
 
-const TransactionsPage = () => {
+const TransactionsPageInner = () => {
     const [AccountDialog, confirm] = useSelectAccount();
     const [variant, setVariant] = useState<VARIANTS>(VARIANTS.LIST);
     const [importResults, setImportResults] = useState(INITIAL_IMPORT_RESULTS);
 
     const onUpload = (results: typeof INITIAL_IMPORT_RESULTS) => {
-        console.log({results});
         setImportResults(results);
         setVariant(VARIANTS.IMPORT);
     };
@@ -223,16 +223,13 @@ const TransactionsPage = () => {
         values: typeof transactoinSchema.$inferInsert[],
     ) => {
         const accountId = await confirm();
-
         if(!accountId) {
             return toast.error("Please select an Account to continue.");
         }
-
         const data = values.map((value) => ({
             ...value,
             accountId: accountId as string,
         }));
-
         createTransactions.mutate(data, {
             onSuccess: () => {
                 onCancelImport();
@@ -264,10 +261,10 @@ const TransactionsPage = () => {
                 <ImportCard 
                     data={importResults.data}
                     onCancel={onCancelImport}
-                    onSubmit={ onSubmitImport }
+                    onSubmit={onSubmitImport}
                 />
             </>
-        )
+        );
     }
 
     return (
@@ -279,15 +276,15 @@ const TransactionsPage = () => {
                         <span className="text-xl"> (Only transactions made in the given range are visible)</span>
                     </CardTitle>
                     <div className="flex flex-col lg:flex-row gap-y-2 items-center gap-x-2">
-                    <Button 
-                        onClick={newTransaction.onOpen} 
-                        size="sm"
-                        className="w-full lg:w-auto"
-                    >
-                        <Plus className="size-4 mr-2"/>
+                        <Button 
+                            onClick={newTransaction.onOpen} 
+                            size="sm"
+                            className="w-full lg:w-auto"
+                        >
+                            <Plus className="size-4 mr-2"/>
                             Add new
-                    </Button>
-                    <ExportButton data={transactions} />
+                        </Button>
+                        <ExportButton data={transactions} />
                     </div>
                 </CardHeader>
                 <CardContent>
@@ -304,6 +301,14 @@ const TransactionsPage = () => {
                 </CardContent>
             </Card>
         </div>
+    );
+};
+
+const TransactionsPage = () => {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <TransactionsPageInner />
+        </Suspense>
     );
 };
 
