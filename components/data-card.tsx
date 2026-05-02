@@ -76,7 +76,7 @@ export const DataCard = ({
                     </CardDescription>
                 </div>
                 <div className={cn(boxVariant({ variant }),)}>
-                    <Icon className={cn(ionVariant({ variant }))} />
+                    <Icon className={cn(ionVariant({ variant }))}  />
                 </div>
             </CardHeader>
             <CardContent>

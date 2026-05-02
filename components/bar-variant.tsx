@@ -34,12 +34,12 @@ export const BarVariant = ({ data }: Props) => {
                 <Bar 
                     dataKey='income'
                     fill='#3df653'
-                    className='drop-shadow-md'
+                    className='drop-shadow-sm'
                 />
                 <Bar 
                     dataKey='expenses'
                     fill='#f43f5e'
-                    className='drop-shadow-md'
+                    className='drop-shadow-sm'
                 />
             </BarChart>
         </ResponsiveContainer>

@@ -38,28 +38,27 @@ export const AreaVariant = ({ data }: Props) => {
                     dataKey='date'
                     tickFormatter={(value) => format(value, 'dd MMM')}
                     style={{ fontSize: '12px' }}
-                    tickMargin={16}
-                />
-                <Tooltip />
-                <Area 
-                    type='bump'
-                    dataKey='income'
-                    stackId="income"
-                    strokeWidth={4}
-                    stroke='#3df653'
-                    fill='url(#income)'
-                    className='drop-shadow-md'
-                />
-                <Area 
-                    type='bump'
-                    dataKey='expenses'
-                    stackId="expenses"
-                    strokeWidth={4}
-                    stroke='#f43f5e'
-                    fill='url(#expenses)'
-                    className='drop-shadow-md'
+                    tickMargin={12}
                 />
                 <Tooltip content={<CustomTooltip />} />
+                <Area 
+                    type='monotone'
+                    dataKey='income'
+                    stackId="income"
+                    strokeWidth={3}
+                    stroke='#3df653'
+                    fill='url(#income)'
+                    className='drop-shadow-sm'
+                />
+                <Area 
+                    type='monotone'
+                    dataKey='expenses'
+                    stackId="expenses"
+                    strokeWidth={3}
+                    stroke='#f43f5e'
+                    fill='url(#expenses)'
+                    className='drop-shadow-sm'
+                />
             </AreaChart>
         </ResponsiveContainer>
     );
